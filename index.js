@@ -4,20 +4,14 @@ const bodyParser = require("body-parser")
 const routes = require("./routes")
 
 const app = express()
-// const bodyParser = require("body-parser");
-
-// const app = express();
-
 
 mongoose.connect("mongodb+srv://charlottedivine:charlotte82@cluster0.9wzuljl.mongodb.net/?retryWrites=true&w=majority",{ useNewUrlParser: true})
 
 .then(()=>{
     const app = express()
-    // app.use(bodyParser.urlencoded({ extended: false }))
 
 
     app.use(bodyParser.json());
-    // app.use(bodyParser.json())
     
     app.use(express.json())
     app.use("/api", routes)
