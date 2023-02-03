@@ -1,15 +1,20 @@
 const express = require("express")
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const multer = require("multer");
 const Blog = require("./models/Blog")
 const Contact = require("./models/Contact");
 const { json } = require("express");
 const router = express.Router()
+const Joi = require('joi');
+
+
+const multer = require("multer");
+
+
 cloudinary.config({
 	cloud_name: "ds779tmo7",
 	api_key: "194959594414752",
-	api_secret: "194959594414752",
+	api_secret: "i79UW8AWKD3sWXm6XdTYU3r6IwY",
   });
   const storage = new CloudinaryStorage({
 	cloudinary: cloudinary,
@@ -17,8 +22,37 @@ cloudinary.config({
 	  folder: "DEV",
 	},
   });
+  const upload =multer({storage:storage})
+//   console.log(upload);
+  router.post("/blogs", upload.single("image"), async (req, res) => {
+	console.log(req);
+	console.log(req.file);
+	if (!req.file) {
+	  return res.status(400).send({ message: "No image provided" });
+	}
+  
+	const blog = new Blog({
+	  title: req.body.title,
+	  content: req.body.content,
+	  image: req.file.path,
+	});
+  
+	await blog.save();
+	res.send(JSON.stringify(blog));
+  });
+  
+  
 
-  const Joi = require('joi');
+
+//   router.post("/blogs",upload.single("image"),async(req,res)=>{
+//  const blog = new Blog({
+// 	title:req.body.title,
+// 	content:req.body.content,
+// 	image:req.file.path,
+//  })
+//  await blog.save()
+//  res.send(blog)
+//   })
 
   router.post("/contacts", async (req,res) => {
 	  const schema = Joi.object({
