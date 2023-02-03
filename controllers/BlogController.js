@@ -39,8 +39,20 @@ let blog_creation = async (req, res) => {
 	res.send(JSON.stringify(blog));
   };
 
+
+  let get_blog = async (req, res) => {
+	try {
+		const {id}= req.params
+		const blog = await Blog.findById(id)
+		res.send(blog)
+	} catch {
+		res.status(404)
+		res.send({ error: "Blog doesn't exist!" })
+	}
+}
   module.exports = {
-    blog_creation
+    blog_creation,
+    get_blog
 }
 
   

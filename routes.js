@@ -32,59 +32,18 @@ router.get("/users", UserController.get_user)
 
 
 //   **************************************************************************************blogs****************
-//   const validateBlog = (data) => {
-//   const schema = Joi.object({
-// 	title: Joi.string()
-// 	  .min(1)
-// 	  .max(100)
-// 	  .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
-// 	  .required(),
-// 	content: Joi.string()
-// 	  .min(20)
-// 	  .max(100)
-// 	  .required(),
-// 	image: Joi.string().required(),
-//   });
-
-//   return schema.validate(data);
-// }
 router.post("/blogs", upload.single("image"),BlogController.blog_creation)
-// router.post("/blogs", upload.single("image"), async (req, res) => {
-// 	if (!req.file) {
-// 	  return res.status(400).send({ message: "No image provided" });
+router.get("/blogs/:id",BlogController.get_blog)
+// router.get("/blogs/:id", async (req, res) => {
+// 	try {
+// 		const {id}= req.params
+// 		const blog = await Blog.findById(id)
+// 		res.send(blog)
+// 	} catch {
+// 		res.status(404)
+// 		res.send({ error: "Blog doesn't exist!" })
 // 	}
-  
-// 	const blogData = {
-// 	  title: req.body.title,
-// 	  content: req.body.content,
-// 	  image: req.file.path
-// 	};
-  
-
-// 	const { error, value } = validateBlog(blogData);
-// 	if (error) {
-// 	  return res.status(400).send({ message: error.message });
-// 	}
-  
-// 	const blog = new Blog(value);
-// 	await blog.save();
-// 	res.send(JSON.stringify(blog));
-//   });
-
-
-
-  
-  
-router.get("/blogs/:id", async (req, res) => {
-	try {
-		const {id}= req.params
-		const blog = await Blog.findById(id)
-		res.send(blog)
-	} catch {
-		res.status(404)
-		res.send({ error: "Blog doesn't exist!" })
-	}
-})
+// })
 
 
    router.patch("/blogs/:id", upload.single("image"), async (req, res) => {
