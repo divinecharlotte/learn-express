@@ -72,11 +72,24 @@ let patch_blog = async (req, res) => {
     }
   }
 
+let delete_blog = async (req, res) => {
+	try {
+		await Blog.deleteOne({ _id: req.params.id })
+		res.status(204).send()
+	} catch {
+		res.status(404)
+		res.send({ error: "blog doesn't exist!" })
+
+
+
+	}
+}
 
   module.exports = {
     blog_creation,
     get_blog,
-    patch_blog
+    patch_blog,
+    delete_blog
 }
 
   
