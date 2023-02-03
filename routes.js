@@ -25,8 +25,8 @@ cloudinary.config({
   const upload =multer({storage:storage})
 //   console.log(upload);
   router.post("/blogs", upload.single("image"), async (req, res) => {
-	console.log(req);
-	console.log(req.file);
+	// console.log(req);
+	// console.log(req.file);
 	if (!req.file) {
 	  return res.status(400).send({ message: "No image provided" });
 	}
@@ -41,18 +41,7 @@ cloudinary.config({
 	res.send(JSON.stringify(blog));
   });
   
-  
 
-
-//   router.post("/blogs",upload.single("image"),async(req,res)=>{
-//  const blog = new Blog({
-// 	title:req.body.title,
-// 	content:req.body.content,
-// 	image:req.file.path,
-//  })
-//  await blog.save()
-//  res.send(blog)
-//   })
 
   router.post("/contacts", async (req,res) => {
 	  const schema = Joi.object({
@@ -74,16 +63,16 @@ cloudinary.config({
 	  res.send(contact);
   });
   
-// router.get("/blogs/:id", async (req, res) => {
-// 	try {
-// 		const {id}= req.params
-// 		const blog = await Blog.findById(id)
-// 		res.send(blog)
-// 	} catch {
-// 		res.status(404)
-// 		res.send({ error: "Blog doesn't exist!" })
-// 	}
-// })
+router.get("/blogs/:id", async (req, res) => {
+	try {
+		const {id}= req.params
+		const blog = await Blog.findById(id)
+		res.send(blog)
+	} catch {
+		res.status(404)
+		res.send({ error: "Blog doesn't exist!" })
+	}
+})
 router.get("/contacts", async (req, res) => {
 	
 	try{
