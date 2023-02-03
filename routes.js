@@ -63,23 +63,6 @@ router.post("/blogs", upload.single("image"), async (req, res) => {
   });
 
 
-//   const upload =multer({storage:storage})
-//   router.post("/blogs", upload.single("image"), async (req, res) => {
-// 	if (!req.file) {
-// 	  return res.status(400).send({ message: "No image provided" });
-// 	}
-  
-// 	const blog = new Blog({
-// 	  title: req.body.title,
-// 	  content: req.body.content,
-// 	  image: req.file.path,
-// 	});
-  
-// 	await blog.save();
-// 	res.send(JSON.stringify(blog));
-//   });
-  
-
 
   router.post("/contacts", async (req,res) => {
 	  const schema = Joi.object({
