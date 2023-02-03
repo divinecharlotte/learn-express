@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const User = require("../models/User");
 
-let Blog_creation =  async (req,res) => {
+let user_creation =  async (req,res) => {
 		
     const validateUser = (data) => {
         const schema = Joi.object({
@@ -23,6 +23,17 @@ let Blog_creation =  async (req,res) => {
     res.send(user);
 }
 
+let get_user = async (req, res) => {
+		
+    try{
+        const user = await User.find({})
+        res.status(200).json(user)
+    }
+    catch(err){
+        res.status(404).json(err)
+    }
+   }
 module.exports = {
-    Blog_creation
+    user_creation,
+    get_user
 }

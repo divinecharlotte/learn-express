@@ -1,15 +1,15 @@
 const express = require("express")
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const Blog = require("./models/Blog")
+// const Blog = require("./models/Blog")
 const Contact = require("./models/Contact");
-// const User = require("./models/User");
+const User = require("./models/User");
 const { json } = require("express");
 const router = express.Router()
 const Joi = require('joi');
 const multer = require("multer");
 const UserController = require("./controllers/UserController")
-
+const BlogController = require("./controllers/BlogController")
 cloudinary.config({
 	cloud_name: "ds779tmo7",
 	api_key: "194959594414752",
@@ -25,61 +25,51 @@ cloudinary.config({
 
 
 
-router.post("/users", UserController.Blog_creation)
+router.post("/users", UserController.user_creation)
 	
-	
-	router.get("/users", async (req, res) => {
-		
-		try{
-			const user = await User.find({})
-			res.status(200).json(user)
-		}
-		catch(err){
-			res.status(404).json(err)
-		}
-	   })
-	
+router.get("/users", UserController.get_user)
+
 
 
 //   **************************************************************************************blogs****************
-  const validateBlog = (data) => {
-  const schema = Joi.object({
-	title: Joi.string()
-	  .min(1)
-	  .max(100)
-	  .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
-	  .required(),
-	content: Joi.string()
-	  .min(20)
-	  .max(100)
-	  .required(),
-	image: Joi.string().required(),
-  });
+//   const validateBlog = (data) => {
+//   const schema = Joi.object({
+// 	title: Joi.string()
+// 	  .min(1)
+// 	  .max(100)
+// 	  .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
+// 	  .required(),
+// 	content: Joi.string()
+// 	  .min(20)
+// 	  .max(100)
+// 	  .required(),
+// 	image: Joi.string().required(),
+//   });
 
-  return schema.validate(data);
-}
+//   return schema.validate(data);
+// }
+router.post("/blogs", upload.single("image"),BlogController.blog_creation)
+// router.post("/blogs", upload.single("image"), async (req, res) => {
+// 	if (!req.file) {
+// 	  return res.status(400).send({ message: "No image provided" });
+// 	}
+  
+// 	const blogData = {
+// 	  title: req.body.title,
+// 	  content: req.body.content,
+// 	  image: req.file.path
+// 	};
+  
 
-router.post("/blogs", upload.single("image"), async (req, res) => {
-	if (!req.file) {
-	  return res.status(400).send({ message: "No image provided" });
-	}
+// 	const { error, value } = validateBlog(blogData);
+// 	if (error) {
+// 	  return res.status(400).send({ message: error.message });
+// 	}
   
-	const blogData = {
-	  title: req.body.title,
-	  content: req.body.content,
-	  image: req.file.path
-	};
-  
-
-	const { error, value } = validateBlog(blogData);
-	if (error) {
-	  return res.status(400).send({ message: error.message });
-	}
-  
-	const blog = new Blog(value);
-	await blog.save();
-	res.send(JSON.stringify(blog));
-  });
+// 	const blog = new Blog(value);
+// 	await blog.save();
+// 	res.send(JSON.stringify(blog));
+//   });
 
 
 
@@ -125,6 +115,9 @@ router.delete("/blogs/:id", async (req, res) => {
 	} catch {
 		res.status(404)
 		res.send({ error: "blog doesn't exist!" })
+
+
+
 	}
 })
 
