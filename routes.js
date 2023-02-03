@@ -3,12 +3,12 @@ const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const Blog = require("./models/Blog")
 const Contact = require("./models/Contact");
-const User = require("./models/User");
+// const User = require("./models/User");
 const { json } = require("express");
 const router = express.Router()
 const Joi = require('joi');
 const multer = require("multer");
-
+const UserController = require("./controllers/UserController")
 
 cloudinary.config({
 	cloud_name: "ds779tmo7",
@@ -24,27 +24,9 @@ cloudinary.config({
   const upload = multer({ storage: storage });
 
 
-  const validateUser = (data) => {
-	const schema = Joi.object({
-		email: Joi.string().email().required(),
-		password: Joi.string().regex(/^[a-z]+$/).required()
-	});
-	return schema.validate(data);
-	}
-	router.post("/users", async (req,res) => {
-		
+
+router.post("/users", UserController.Blog_creation)
 	
-		const { error, value } = validateUser(req.body);
-		if (error) return res.status(400).send(error.message);
-		
-		const user = new User({
-			email: value.email,
-			password: value.password,
-		});
-		console.log(req.body.password);
-		await user.save();
-		res.send(user);
-	});
 	
 	router.get("/users", async (req, res) => {
 		
