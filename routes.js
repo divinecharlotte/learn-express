@@ -6,8 +6,6 @@ const Contact = require("./models/Contact");
 const { json } = require("express");
 const router = express.Router()
 const Joi = require('joi');
-
-
 const multer = require("multer");
 
 
@@ -26,7 +24,23 @@ cloudinary.config({
 
   const upload = multer({ storage: storage });
 
+//   **************************************************************************************blogs****************
+  const validateBlog = (data) => {
+  const schema = Joi.object({
+	title: Joi.string()
+	  .min(1)
+	  .max(100)
+	  .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
+	  .required(),
+	content: Joi.string()
+	  .min(20)
+	  .max(100)
+	  .required(),
+	image: Joi.string().required(),
+  });
 
+  return schema.validate(data);
+}
 
 router.post("/blogs", upload.single("image"), async (req, res) => {
 	if (!req.file) {
@@ -39,20 +53,8 @@ router.post("/blogs", upload.single("image"), async (req, res) => {
 	  image: req.file.path
 	};
   
-	const schema = Joi.object({
-	  title: Joi.string()
-		.min(1)
-		.max(100)
-		.regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
-		.required(),
-	  content: Joi.string()
-		.min(20)
-		.max(100)
-		.required(),
-	  image: Joi.string().required(),
-	});
-  
-	const { error, value } = schema.validate(blogData);
+
+	const { error, value } = validateBlog(blogData);
 	if (error) {
 	  return res.status(400).send({ message: error.message });
 	}
@@ -64,25 +66,7 @@ router.post("/blogs", upload.single("image"), async (req, res) => {
 
 
 
-  router.post("/contacts", async (req,res) => {
-	  const schema = Joi.object({
-		  name: Joi.string().regex(/^[a-zA-Z]+ [a-zA-Z]+$/).required(),
-		  email: Joi.string().email().required(),
-		  message: Joi.string().min(20).max(100).required()
-	  });
   
-	  const { error, value } = schema.validate(req.body);
-	  if (error) return res.status(400).send(error.message);
-	  
-	  const contact = new Contact({
-		  name: value.name,
-		  email: value.email,
-		  message: value.message,
-	  });
-	  
-	  await contact.save();
-	  res.send(contact);
-  });
   
 router.get("/blogs/:id", async (req, res) => {
 	try {
@@ -94,17 +78,6 @@ router.get("/blogs/:id", async (req, res) => {
 		res.send({ error: "Blog doesn't exist!" })
 	}
 })
-router.get("/contacts", async (req, res) => {
-	
-	try{
-		const contact = await Contact.find({})
-		res.status(200).json(contact)
-	}
-	catch(err){
-		res.status(404).json(error)
-	}
-   })
-
 
 
    router.patch("/blogs/:id", upload.single("image"), async (req, res) => {
@@ -137,5 +110,43 @@ router.delete("/blogs/:id", async (req, res) => {
 		res.send({ error: "blog doesn't exist!" })
 	}
 })
+
+//   **************************************************************************************blogs****************************************
+const validateContact = (data) => {
+const schema = Joi.object({
+	name: Joi.string().regex(/^[a-zA-Z]+ [a-zA-Z]+$/).required(),
+	email: Joi.string().email().required(),
+	message: Joi.string().min(20).max(100).required()
+});
+return schema.validate(data);
+}
+router.post("/contacts", async (req,res) => {
+	
+
+	const { error, value } = validateContact(req.body);
+	if (error) return res.status(400).send(error.message);
+	
+	const contact = new Contact({
+		name: value.name,
+		email: value.email,
+		message: value.message,
+	});
+	
+	await contact.save();
+	res.send(contact);
+});
+
+router.get("/contacts", async (req, res) => {
+	
+	try{
+		const contact = await Contact.find({})
+		res.status(200).json(contact)
+	}
+	catch(err){
+		res.status(404).json(error)
+	}
+   })
+
+
 module.exports = router
 
