@@ -50,16 +50,16 @@ cloudinary.config({
 // 		res.send({ error: "Blog doesn't exist!" })
 // 	}
 // })
-// router.get("/contacts", async (req, res) => {
+router.get("/contacts", async (req, res) => {
 	
-// 	try{
-// 		const contact = await Contact.find({})
-// 		res.status(200).json(contact)
-// 	}
-// 	catch(err){
-// 		res.status(404).json(error)
-// 	}
-//    })
+	try{
+		const contact = await Contact.find({})
+		res.status(200).json(contact)
+	}
+	catch(err){
+		res.status(404).json(error)
+	}
+   })
 // router.patch("/blogs/:id", async (req, res) => {
 // 	try {
 // 		const blog= await Blog.findOne({ _id: req.params.id })
