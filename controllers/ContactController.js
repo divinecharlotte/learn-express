@@ -1,12 +1,12 @@
-const Contact = require("../models/Contact");
-const Joi = require('joi');
+import Contact from "../models/Contact.js";
+import joi from 'joi';
 
 
 const validateContact = (data) => {
-    const schema = Joi.object({
-        name: Joi.string().regex(/^[a-zA-Z]+ [a-zA-Z]+$/).required(),
-        email: Joi.string().email().required(),
-        message: Joi.string().min(20).max(100).required()
+    const schema = joi.object({
+        name: joi.string().regex(/^[a-zA-Z]+ [a-zA-Z]+$/).required(),
+        email: joi.string().email().required(),
+        message: joi.string().min(20).max(100).required()
     });
     return schema.validate(data);
     }
@@ -35,7 +35,7 @@ let get_contact =  async (req, res) => {
 	}
    }
 
-module.exports = {
+export default {
    post_contact,
    get_contact
 }

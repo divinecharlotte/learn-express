@@ -1,7 +1,7 @@
-const express = require("express")
-const mongoose = require("mongoose") 
-const bodyParser = require("body-parser")
-const routes = require("./routes")
+import express from "express"
+import mongoose from "mongoose" 
+import bodyParser from "body-parser"
+import routes from "./routes.js"
 
 const app = express()
 
@@ -13,10 +13,9 @@ mongoose.connect("mongodb+srv://charlottedivine:charlotte82@cluster0.9wzuljl.mon
 
     app.use(bodyParser.json());
     
-    app.use(express.json())
-    app.use("/api", routes)
+        app.use(express.json())
+        app.use("/api", routes)
     app.listen(5000, ()=>{
        console.log("server has started");
     })
 })
-

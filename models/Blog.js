@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
 const schema = mongoose.Schema({
 	title: String,
@@ -6,4 +6,15 @@ const schema = mongoose.Schema({
 	image: String,
 })
 
-module.exports = mongoose.model("Blog", schema)
+export default mongoose.model("Blog", schema)
+
+
+// const mongoose = require("mongoose")
+
+// const schema = mongoose.Schema({
+// 	title: String,
+// 	content: String,
+// 	image: String,
+// })
+
+// module.exports = mongoose.model("Blog", schema)
