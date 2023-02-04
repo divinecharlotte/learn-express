@@ -6,6 +6,7 @@ const multer = require("multer");
 const UserController = require("./controllers/UserController")
 const BlogController = require("./controllers/BlogController")
 const ContactController = require("./controllers/ContactController")
+const userAuthenticationController = require("./controllers/userAthenticationController")
 cloudinary.config({
 	cloud_name: "ds779tmo7",
 	api_key: "194959594414752",
@@ -29,5 +30,9 @@ router.patch("/blogs/:id", upload.single("image"), BlogController.patch_blog)
 router.delete("/blogs/:id",BlogController.delete_blog)
 router.post("/contacts",ContactController.post_contact)
 router.get("/contacts",ContactController.get_contact)
+
+
+router.post("/register",userAuthenticationController.registerUser);
+router.post("/signin",userAuthenticationController.signIn);
 module.exports = router
 
