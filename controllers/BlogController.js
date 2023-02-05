@@ -15,7 +15,7 @@ let blog_creation = async (req, res) => {
   
     const validateBlog = (data) => {
         const schema = joi.object({
-          title: string()
+          title: joi.string()
             .min(1)
             .max(100)
             .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
@@ -85,14 +85,12 @@ let delete_blog = async (req, res) => {
 	}
 }
 
-  export default  {
+  export default {
     blog_creation,
     get_blog,
     patch_blog,
     delete_blog
 }
-
-  
 
 
 
@@ -191,5 +189,3 @@ let delete_blog = async (req, res) => {
 //     patch_blog,
 //     delete_blog
 // }
-
-  
