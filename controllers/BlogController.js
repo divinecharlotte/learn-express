@@ -1,44 +1,22 @@
-const Blog = require("../models/Blog");
-const Joi = require('joi');
+import Blog from "../models/Blog.js";
+import cloudinary from "../services/cloudinary.js"
 
 
 let blog_creation = async (req, res) => {
-	if (!req.file) {
-	  return res.status(400).send({ message: "No image provided" });
-	}
-  
-	const blogData = {
-	  title: req.body.title,
-	  content: req.body.content,
-	  image: req.file.path
-	};
-  
-    const validateBlog = (data) => {
-        const schema = Joi.object({
-          title: Joi.string()
-            .min(1)
-            .max(100)
-            .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/)
-            .required(),
-          content: Joi.string()
-            .min(20)
-            .max(100)
-            .required(),
-          image: Joi.string().required(),
-        });
-      
-        return schema.validate(data);
-      }
-	const { error, value } = validateBlog(blogData);
-	if (error) {
-	  return res.status(400).send({ message: error.message });
-	}
-  
-	const blog = new Blog(value);
-	await blog.save();
-	res.send(JSON.stringify(blog));
-  };
+  try{
+    const result= await cloudinary.uploader.upload(req.file.path)
 
+    const blogData = new Blog ({
+      title: req.body.title,
+      content: req.body.content,
+      image: req.file.path
+    });
+    await blogData.save()
+    res.status(201).json({Blog:blogData})
+  }catch (error){
+    res.status(500).json({error:error.message})
+    console.log(error.message);
+  }}
 
   let get_blog = async (req, res) => {
 	try {
@@ -85,11 +63,9 @@ let delete_blog = async (req, res) => {
 	}
 }
 
-  module.exports = {
+  export {
     blog_creation,
     get_blog,
     patch_blog,
     delete_blog
 }
-
-  
