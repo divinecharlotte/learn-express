@@ -6,13 +6,3 @@ import mongoose from "mongoose"
     
  })
  export default mongoose.model("Contact" ,schema)
-
-
-//  const mongoose = require("mongoose")
-//  const schema = mongoose.Schema({
-//     name: String,
-//     email: String,
-//     message: String,
-    
-//  })
-//  module.exports =mongoose.model("Contact" ,schema)
