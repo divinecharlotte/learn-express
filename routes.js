@@ -1,22 +1,10 @@
 import express from "express";
 import { blog_creation,get_blog,patch_blog,delete_blog } from "./controllers/BlogController.js";
-// import cloudinary from "./services/cloudinary.js";
 const router = express.Router()
 import upload from "./services/multer.js"
-// import multer from "multer";
-// import { CloudinaryStorage } from "multer-storage-cloudinary";
-// import UserController from "./controllers/UserController.js";
-// import BlogController from "./controllers/BlogController.js";
 import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
 import checkValidation from "./validate.js";
-// const storage = new CloudinaryStorage({
-// 	cloudinary: cloudinary,
-// 	params: {
-// 	  folder: "DEV",
-// 	},
-// });
-//   const upload = multer({ storage: storage });
 
 
 router.get("/users", userAuthenticationController.get_user)
