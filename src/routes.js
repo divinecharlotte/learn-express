@@ -4,7 +4,7 @@ const router = express.Router()
 import upload from "./services/multer.js"
 import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
-import checkValidation from "./validate.js";
+import checkValidation from "./validate.js"
 
 
 router.get("/users", userAuthenticationController.get_user)

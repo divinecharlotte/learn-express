@@ -1,7 +1,7 @@
 import express from "express"
 import mongoose from "mongoose" 
 import bodyParser from "body-parser"
-import routes from "./routes.js"
+import routes from "./src/routes.js"
 
 const app = express()
 
