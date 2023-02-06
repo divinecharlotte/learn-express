@@ -1,26 +1,29 @@
 import express from "express";
-import cloudinary from "./cloudinary.js";
+import { blog_creation,get_blog,patch_blog,delete_blog } from "./controllers/BlogController.js";
+// import cloudinary from "./services/cloudinary.js";
 const router = express.Router()
-import multer from "multer";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import upload from "./services/multer.js"
+// import multer from "multer";
+// import { CloudinaryStorage } from "multer-storage-cloudinary";
 // import UserController from "./controllers/UserController.js";
-import BlogController from "./controllers/BlogController.js";
+// import BlogController from "./controllers/BlogController.js";
 import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
-const storage = new CloudinaryStorage({
-	cloudinary: cloudinary,
-	params: {
-	  folder: "DEV",
-	},
-});
-  const upload = multer({ storage: storage });
+import checkValidation from "./validate.js";
+// const storage = new CloudinaryStorage({
+// 	cloudinary: cloudinary,
+// 	params: {
+// 	  folder: "DEV",
+// 	},
+// });
+//   const upload = multer({ storage: storage });
 
 
 router.get("/users", userAuthenticationController.get_user)
-router.post("/blogs",upload.single("image"),BlogController.blog_creation)
-router.get("/blogs/:id",BlogController.get_blog)
-router.patch("/blogs/:id",upload.single("image"), BlogController.patch_blog)
-router.delete("/blogs/:id",BlogController.delete_blog)
+router.post("/blogs",upload.single("image"),checkValidation,blog_creation)
+router.get("/blogs/:id", get_blog)
+router.patch("/blogs/:id",upload.single("image"),checkValidation,patch_blog)
+router.delete("/blogs/:id",delete_blog)
 router.post("/contacts",ContactController.post_contact)
 router.get("/contacts",ContactController.get_contact)
 
