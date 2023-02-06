@@ -66,23 +66,44 @@ const registerUser = async(req,res) => {
   }
 };
 
-const signIn =  (req,res, next)=>{
-  passport.authenticate('local', {session: false}, (error, user, info) => {
-    if (error || !user) {
-      return res.status(400).json({
-        message: 'Something is not right',
-        user   : user
-      });
-    }
-    req.login(user, {session: false}, (error) => {
-      if (error) {
-        res.send(error);
-      }
-      const token = jwt.sign({id: user._id}, JWT_SECRET);
-      return res.json({user, token});
+
+const signIn = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(404).json({ message: "Wrong credintial" });
+  }
+  console.log(user.password);
+  const userPassword = await bcrypt.compare(req.body.password, user.password);
+
+  if (!userPassword) {
+    return res.status(401).json({
+      status: false,
+      error: "Incorect password or email..!",
     });
-  })(req, res, next);
-};
+  }
+  const token = jwt.sign({id: user._id}, JWT_SECRET,{expiresIn:"1d"});
+  return res.json({user, token});
+}
+      
+
+
+// const signIn =  (req,res, next)=>{
+//   // passport.authenticate('local', {session: false}, (error, user, info) => {
+//   //   if (error || !user) {
+//   //     return res.status(400).json({
+//   //       message: 'Something is not right',
+//   //       user   : user
+//   //     });
+//   //   }
+//   //   req.login(user, {session: false}, (error) => {
+//   //     if (error) {
+//   //       res.send(error);
+//   //     }
+//       const token = jwt.sign({id: user._id}, JWT_SECRET);
+//       return res.json({user, token});
+//   //   });
+//   // })(req, res, next);
+// };
 
 const get_user = async (req, res) => {
   try{

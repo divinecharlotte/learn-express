@@ -6,11 +6,12 @@ import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
 import checkValidation from "./validate.js"
 import passport from "passport"
-import isLoggedIn from "./utils/authentication.js"
+// import isLoggedIn from "./utils/authentication.js"
+import authUser from "./midleWare.js/auth.js"
 
 router.use(passport.initialize())
 router.use(passport.session())
-router.get("/users",isLoggedIn, userAuthenticationController.get_user)
+router.get("/users",authUser, userAuthenticationController.get_user)
 router.post("/blogs",upload.single("image"),checkValidation,blog_creation)
 router.get("/blogs", get_blogs)
 router.get("/blogs/:id", getSingleBlog)
@@ -21,7 +22,7 @@ router.get("/contacts",ContactController.get_contact)
 
 
 router.post("/register",userAuthenticationController.registerUser);
-router.post("/signin",passport.authenticate('local', { session: false }),userAuthenticationController.signIn);
+router.post("/signin",userAuthenticationController.signIn);
 export default router
 
 
