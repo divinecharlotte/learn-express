@@ -5,6 +5,7 @@ import upload from "./services/multer.js"
 import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
 import checkValidation from "./validate.js"
+import passport from "passport"
 
 
 router.get("/users", userAuthenticationController.get_user)
@@ -17,7 +18,7 @@ router.get("/contacts",ContactController.get_contact)
 
 
 router.post("/register",userAuthenticationController.registerUser);
-router.post("/signin",userAuthenticationController.signIn);
+router.post("/signin",passport.authenticate('local', { session: false }),userAuthenticationController.signIn);
 export default router
 
 
