@@ -5,11 +5,3 @@ import mongoose from "mongoose"
     
  })
  export default mongoose.model("User" ,schema)
-
-//  const mongoose = require("mongoose")
-//  const schema = mongoose.Schema({
-//     email: String,
-//     password: String,
-    
-//  })
-//  module.exports =mongoose.model("User" ,schema)
