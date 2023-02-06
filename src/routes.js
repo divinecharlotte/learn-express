@@ -1,5 +1,5 @@
 import express from "express";
-import { blog_creation,patch_blog,delete_blog, get_blogs } from "./controllers/BlogController.js";
+import { blog_creation,patch_blog,delete_blog, get_blogs, getSingleBlog } from "./controllers/BlogController.js";
 const router = express.Router()
 import upload from "./services/multer.js"
 import ContactController from "./controllers/ContactController.js";
@@ -13,6 +13,7 @@ router.use(passport.session())
 router.get("/users",isLoggedIn, userAuthenticationController.get_user)
 router.post("/blogs",upload.single("image"),checkValidation,blog_creation)
 router.get("/blogs", get_blogs)
+router.get("/blogs/:id", getSingleBlog)
 router.patch("/blogs/:id",upload.single("image"),checkValidation,patch_blog)
 router.delete("/blogs/:id",delete_blog)
 router.post("/contacts",ContactController.post_contact)

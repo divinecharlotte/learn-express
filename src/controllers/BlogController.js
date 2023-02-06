@@ -29,7 +29,16 @@ console.log(result);
     }
     
     
-    
+    let getSingleBlog = async (req, res) => {
+      try {
+        const {id}= req.params
+        const blog = await Blog.findById(id)
+        res.send(blog)
+      } catch {
+        res.status(404)
+        res.send({ error: "Blog doesn't exist!" })
+      }
+    }
     
     
 
@@ -67,6 +76,7 @@ let patch_blog = async (req, res) => {
   export {
     blog_creation,
     get_blogs,
+    getSingleBlog,
     patch_blog,
     delete_blog
 }
