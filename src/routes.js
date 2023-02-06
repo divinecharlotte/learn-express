@@ -1,16 +1,18 @@
 import express from "express";
-import { blog_creation,get_blog,patch_blog,delete_blog } from "./controllers/BlogController.js";
+import { blog_creation,patch_blog,delete_blog, get_blogs } from "./controllers/BlogController.js";
 const router = express.Router()
 import upload from "./services/multer.js"
 import ContactController from "./controllers/ContactController.js";
 import userAuthenticationController from "./controllers/userAthenticationController.js";
 import checkValidation from "./validate.js"
 import passport from "passport"
+import isLoggedIn from "./utils/authentication.js"
 
-
-router.get("/users", userAuthenticationController.get_user)
+router.use(passport.initialize())
+router.use(passport.session())
+router.get("/users",isLoggedIn, userAuthenticationController.get_user)
 router.post("/blogs",upload.single("image"),checkValidation,blog_creation)
-router.get("/blogs/:id", get_blog)
+router.get("/blogs", get_blogs)
 router.patch("/blogs/:id",upload.single("image"),checkValidation,patch_blog)
 router.delete("/blogs/:id",delete_blog)
 router.post("/contacts",ContactController.post_contact)

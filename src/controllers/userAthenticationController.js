@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken';
 // import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 
+
+
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password'
@@ -34,7 +36,6 @@ passport.use(new LocalStrategy({
     return done(error);
   }
 }));
-
 
 const JWT_SECRET = "secret_key";
 

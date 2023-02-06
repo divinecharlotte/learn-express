@@ -5,11 +5,11 @@ import cloudinary from "../services/cloudinary.js"
 let blog_creation = async (req, res) => {
   try{
     const result= await cloudinary.uploader.upload(req.file.path)
-
+console.log(result);
     const blogData = new Blog ({
       title: req.body.title,
       content: req.body.content,
-      image: req.file.path
+      image: result.url
     });
     await blogData.save()
     res.status(201).json({Blog:blogData})
@@ -18,16 +18,20 @@ let blog_creation = async (req, res) => {
     console.log(error.message);
   }}
 
-  let get_blog = async (req, res) => {
-	try {
-		const {id}= req.params
-		const blog = await Blog.findById(id)
-		res.send(blog)
-	} catch {
-		res.status(404)
-		res.send({ error: "Blog doesn't exist!" })
-	}
-}
+  let get_blogs = async (req, res) => {
+    try {
+    const blogs = await Blog.find({})
+    res.send(blogs)
+    } catch {
+    res.status(404)
+    res.send({ error: "Blogs don't exist!" })
+    }
+    }
+    
+    
+    
+    
+    
 
 let patch_blog = async (req, res) => {
     try {
@@ -50,22 +54,19 @@ let patch_blog = async (req, res) => {
     }
   }
 
-let delete_blog = async (req, res) => {
-	try {
-		await Blog.deleteOne({ _id: req.params.id })
-		res.status(204).send()
-	} catch {
-		res.status(404)
-		res.send({ error: "blog doesn't exist!" })
-
-
-
-	}
-}
+  let delete_blog = async (req, res) => {
+    try {
+    await Blog.deleteOne({ _id: req.params.id })
+    res.send({ message: "the blog is successfully deleted" })
+    } catch {
+    res.status(404)
+    res.send({ error: "blog doesn't exist!" })
+    }
+    }
 
   export {
     blog_creation,
-    get_blog,
+    get_blogs,
     patch_blog,
     delete_blog
 }
