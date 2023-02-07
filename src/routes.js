@@ -8,7 +8,8 @@ import checkValidation from "./validate.js"
 import passport from "passport"
 // import isLoggedIn from "./utils/authentication.js"
 import authUser from "./midleWare.js/auth.js"
-
+import postComment from "./controllers/commentsController.js"
+import postLike from "./controllers/LikesController.js";
 router.use(passport.initialize())
 router.use(passport.session())
 
@@ -24,6 +25,8 @@ router.delete("/messages/:id",ContactController.deleteContact)
 router.get("/users",authUser, userAuthenticationController.get_user)
 router.post("/register",userAuthenticationController.registerUser);
 router.post("/auth/login",userAuthenticationController.signIn);
+router.post("/blogs/:id/comments",postComment);
+router.post("/blogs/:id/likes",postLike);
 export default router
 
 

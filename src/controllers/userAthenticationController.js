@@ -72,7 +72,7 @@ const signIn = async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: "Wrong credintial" });
   }
-  console.log(user.password);
+  // console.log(user.password);
   const userPassword = await bcrypt.compare(req.body.password, user.password);
 
   if (!userPassword) {
