@@ -11,16 +11,17 @@ import authUser from "./midleWare.js/auth.js"
 
 router.use(passport.initialize())
 router.use(passport.session())
-router.get("/users",authUser, userAuthenticationController.get_user)
-router.post("/blogs",upload.single("image"),checkValidation,blog_creation)
-router.get("/blogs", get_blogs)
-router.get("/blogs/:id", getSingleBlog)
-router.patch("/blogs/:id",upload.single("image"),checkValidation,patch_blog)
-router.delete("/blogs/:id",delete_blog)
+
+router.post("/blogs",authUser,upload.single("image"),checkValidation,blog_creation)
+router.get("/blogs",authUser, get_blogs)
+router.get("/blogs/:id",authUser, getSingleBlog)
+router.patch("/blogs/:id",upload.single("image"),authUser,checkValidation,patch_blog)
+router.delete("/blogs/:id",authUser,delete_blog)
 router.post("/contacts",ContactController.post_contact)
 router.get("/contacts",ContactController.get_contact)
 router.delete("/contacts/:id",ContactController.deleteContact)
 
+router.get("/users",authUser, userAuthenticationController.get_user)
 router.post("/register",userAuthenticationController.registerUser);
 router.post("/signin",userAuthenticationController.signIn);
 export default router
