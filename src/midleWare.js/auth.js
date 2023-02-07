@@ -16,6 +16,7 @@ const authUser = (req, res, next) => {
       res.status(401).json({
         error: "Access Denied...!",
       });
+      
     }
   };
   export default authUser

@@ -25,4 +25,25 @@ const comment = new Comment({
 //   }}
     }
 
-export default postComment
+    let getComments =   async (req, res) => {
+	
+        try{
+            const {id}= req.params
+            // const comment = await Comment.find({})
+            const comment  = await Comment.find({})
+            res.status(200).json(comment)
+        }
+        catch(err){
+            res.status(404).json(err)
+        }
+
+        // Comment.findOne({Blog:id},(err,data)=>{
+        //     if(data){
+        //         res.status(201).json({
+        //             code : 201,
+        //             comment :data
+        //         })
+        //     }else{res.status(405).json(err)}
+        // })
+       }
+export default {postComment, getComments}
