@@ -17,13 +17,13 @@ router.get("/blogs",authUser, get_blogs)
 router.get("/blogs/:id",authUser, getSingleBlog)
 router.patch("/blogs/:id",upload.single("image"),authUser,checkValidation,patch_blog)
 router.delete("/blogs/:id",authUser,delete_blog)
-router.post("/contacts",ContactController.post_contact)
-router.get("/contacts",ContactController.get_contact)
-router.delete("/contacts/:id",ContactController.deleteContact)
+router.post("/messages",ContactController.post_contact)
+router.get("/messages",ContactController.get_contact)
+router.delete("/messages/:id",ContactController.deleteContact)
 
 router.get("/users",authUser, userAuthenticationController.get_user)
 router.post("/register",userAuthenticationController.registerUser);
-router.post("/signin",userAuthenticationController.signIn);
+router.post("/auth/login",userAuthenticationController.signIn);
 export default router
 
 
