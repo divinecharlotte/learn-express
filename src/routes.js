@@ -19,7 +19,7 @@ router.patch("/blogs/:id",upload.single("image"),checkValidation,patch_blog)
 router.delete("/blogs/:id",delete_blog)
 router.post("/contacts",ContactController.post_contact)
 router.get("/contacts",ContactController.get_contact)
-
+router.delete("/contacts/:id",ContactController.deleteContact)
 
 router.post("/register",userAuthenticationController.registerUser);
 router.post("/signin",userAuthenticationController.signIn);
