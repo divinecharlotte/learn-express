@@ -35,7 +35,18 @@ let get_contact =  async (req, res) => {
 	}
    }
 
+   let deleteContact= async (req, res) => {
+    try {
+    await Contact.deleteOne({ _id: req.params.id })
+    res.send({ message: "the contact is successfully deleted" })
+    } catch {
+    res.status(404)
+    res.send({ error: "contact doesn't exist!" })
+    }
+    }
+
 export default {
    post_contact,
-   get_contact
+   get_contact,
+   deleteContact
 }
