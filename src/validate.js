@@ -1,4 +1,4 @@
-import validateBlog from "./validations/index.js";
+import validateBlog from "./validations/blogValidation.js";
 const checkValidation = (req, res, next) => {
     const { error } = validateBlog(req.body, { abortEarly: false });
   
