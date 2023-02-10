@@ -13,6 +13,14 @@ message:"hhhhhhhxshhhhhhhhhhhhhh"
 message:"hhhhhhhxshhhhhhhhhhhhhh"
  }
 
+ const user = {
+email: "divinemaina@gmail.com",
+password:"user"
+ }
+ const userWithoutEmail = {
+password:"user"
+ }
+
  describe("blog API tests", () =>{
     beforeAll( async() =>{
         await mongoConnect()
@@ -22,16 +30,7 @@ message:"hhhhhhhxshhhhhhhhhhhhhh"
         await mongoDisconnect()
     })
 
-    // describe("Welcome APi message", () =>{
-    //     test("It should return 200 and Welcome message ", async () =>{
-    //         const {body} = await request(app)
-    //         .get("/api")
-    //         .expect("Content-Type", /json/)
-    //         .expect(200)
-    //     expect(body.message).toStrictEqual("Welcome to the movie api")
-    //     })
-    
-    // })
+
 
     describe("APi Tests",() =>{
         test("It should return a list of contacts", async () =>{
@@ -60,11 +59,33 @@ message:"hhhhhhhxshhhhhhhhhhhhhh"
             const {body} = await request(app)
             .delete("/api/messages/:id")
             .send({ message: "the contact is successfully deleted" })
-            // .expect("Content-Type", /json/)
+        
             .expect(404)
         })
+
+
+        test("It should return a list of users", async () =>{
+            const {body} = await request(app)
+            .get("/api/users")
+            .expect("Content-Type", /json/)
+            .expect(401)
+        })
+
+        test("It should return 201 and create a user", async () =>{
+            const {body} =   await request(app)
+              .post("/api/register")
+              .send(user)
+              .expect("Content-Type", /json/)
+              .expect(201)
+          })
+
+          test("It should return 400 ", async () =>{
+            const {body} = await request(app)
+            .post("/api/register")
+            .send(userWithoutEmail)
+            .expect("Content-Type", /json/)
+            .expect(400)
+        })
+
     })
-    
-    
-    
     })
