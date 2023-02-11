@@ -2,10 +2,10 @@ jobs:
   build:
     docker:
       - image: node:16.17.0
-    working_directory: ~/learn-express
+    working_directory: ~/
     steps:
       - checkout:
-          path: ~/mybrand
+          path: ~/learn-express
       - run:
           name: Install dependencies
           command: npm install
