@@ -2,7 +2,7 @@ jobs:
   build:
     docker:
       - image: node:16.17.0
-    working_directory: ~/
+  
     steps:
       - checkout:
           path: ~/learn-express
