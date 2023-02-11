@@ -1,0 +1,14 @@
+jobs:
+  build:
+    docker:
+      - image: node:16.17.0
+    working_directory: ~/learn-express
+    steps:
+      - checkout:
+          path: ~/mybrand
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Run tests
+          command: npm test --coverage
