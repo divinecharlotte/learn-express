@@ -6,7 +6,7 @@ import app from './app.js';
 
 dotenv.config()
 
-const PORT = 3000;
+const PORT = 5000;
 const server = http.createServer(app)
 
 const startServer = async () =>{
