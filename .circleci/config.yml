@@ -2,8 +2,8 @@ jobs:
   build:
     docker:
       - image: node:16.17.0
-              COVERALLS_REPO_TOKEN: lLqKyNNKIgzBau6H5YKe4sS1SgXnA1BKa
-
+  environment:
+      COVERALLS_REPO_TOKEN: P3oVZrkN3ro0EWL1sSTkE4OjWrsvruxHq
     steps:
       - checkout:
       - run:
@@ -12,6 +12,8 @@ jobs:
       - run:
           name: Run tests
           command: npm test --coverage
-      -run:
+
+- run:
           name: Upload coverage to Coveralls
           command: npx coveralls < coverage/lcov.info
+          version: 2.4
