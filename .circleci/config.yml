@@ -1,6 +1,8 @@
+jobs:
+  build:
+    docker:
       - image: node:16.17.0
-  environment:
-      repo_token: lLqKyNNKIgzBau6H5YKe4sS1SgXnA1BKa
+  
     steps:
       - checkout:
       - run:
@@ -9,8 +11,3 @@
       - run:
           name: Run tests
           command: npm test --coverage
-
-- run:
-          name: Upload coverage to Coveralls
-          command: npx coveralls < coverage/lcov.info
-          version: 2.4
