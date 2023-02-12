@@ -25,9 +25,10 @@ router.get("/users",authUser, userAuthenticationController.get_user)
 router.post("/register",userAuthenticationController.registerUser);
 router.post("/auth/login",userAuthenticationController.signIn);
 router.post("/blogs/:id/comments",commentsController.postComment);
+router.get("/blogs/:id/comments",commentsController.getComments);
 router.post("/blogs/:id/likes",LikesController.postLike);
 router.get("/blogs/:id/likes",LikesController.countLikes);
-router.get("/blogs/:id/comments",commentsController.getComments);
+
 export default router
 
 
