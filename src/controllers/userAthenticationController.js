@@ -87,24 +87,6 @@ const signIn = async (req, res) => {
       
 
 
-// const signIn =  (req,res, next)=>{
-//   // passport.authenticate('local', {session: false}, (error, user, info) => {
-//   //   if (error || !user) {
-//   //     return res.status(400).json({
-//   //       message: 'Something is not right',
-//   //       user   : user
-//   //     });
-//   //   }
-//   //   req.login(user, {session: false}, (error) => {
-//   //     if (error) {
-//   //       res.send(error);
-//   //     }
-//       const token = jwt.sign({id: user._id}, JWT_SECRET);
-//       return res.json({user, token});
-//   //   });
-//   // })(req, res, next);
-// };
-
 const get_user = async (req, res) => {
   try{
     const user = await User.find({})

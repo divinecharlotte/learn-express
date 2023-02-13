@@ -21,7 +21,7 @@ let post_contact = async (req,res) => {
 	});
 	
 	await contact.save();
-	res.send(contact);
+	res.status(201).send(contact);
 }
 
 let get_contact =  async (req, res) => {
