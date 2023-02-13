@@ -14,7 +14,7 @@ let blog_creation = async (req, res) => {
     await blogData.save()
     res.status(201).json({Blog:blogData})
   }catch (error){
-    res.status(500).json({error:error.message})
+    res.status(401).json({error:error.message})
     console.log(error.message);
   }}
 
@@ -56,6 +56,7 @@ let patch_blog = async (req, res) => {
         blog.image = req.file.path;
       }
       await blog.save();
+      // res.status(200);
       res.send(blog);
     } catch {
       res.status(404);

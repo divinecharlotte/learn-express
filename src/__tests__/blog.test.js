@@ -2,14 +2,16 @@ import request from "supertest";
 import path from "path";
 import { mongoConnect, mongoDisconnect } from "../services/mongo.js";
 import app from '../app.js';
-import { blog, blogId } from "../data/blog.data.js";
+// import { blog, blogId } from "../data/blog.data.js";
 // import { generateToken } from "../services/passport.js";
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
-import supertest from "supertest";
+// import supertest from "supertest";
+
 import User from "../models/User.js"
+import checkValidation from "../validate.js";
 
-
+jest.setTimeout(20000)
 describe("Blog API Test", () => {
     beforeAll(async () => {
       await mongoConnect()
@@ -114,10 +116,7 @@ describe("GET /api/user", () => {
     const getUserResponse = await request(app)
       .get("/api/users")
       .set("auth-token", token);
-
     expect(getUserResponse.statusCode).toBe(200);
-    // expect(getUserResponse.body).toHaveProperty("email");
-    // expect(getUserResponse.body).toHaveProperty("_id");
   });
 
   it("Should return a 401 error if the user is not signed in", async () => {
@@ -126,6 +125,139 @@ describe("GET /api/user", () => {
     expect(getUserResponse.statusCode).toBe(401);
  
   });
+
+  
+  test("It should create Blog with valid data", async () => {
+    const user = new User({
+      email: "divinemaina@gmail.com",
+      password: "user",
+    });
+
+    await user.save();
+    const blogData = {
+      title: "new blog",
+      content: "its a new day and aweek all in one",
+      image: "../data.image.PNG"
+    };
+
+    const signInResponse = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "divinemaina@gmail.com", password: "user" });
+
+    expect(signInResponse.statusCode).toBe(200);
+    expect(signInResponse.body).toHaveProperty("user");
+    expect(signInResponse.body).toHaveProperty("token")
+    const token = signInResponse.body.token;
+    await request(app)
+      .post("/api/blogs")
+      .set("auth-token",token)
+      .field("title", blogData.title)
+      .field("content", blogData.content)
+      .attach("image", path.resolve(__dirname, "../data/image.PNG"))
+      .expect(201)
+      // .expect(500);
+
+  });
+
+  it("Should return a 401 error if the user is not signed in", async () => {
+    const postBlogResponse = await request(app).post("/api/blogs");
+
+    expect(postBlogResponse.statusCode).toBe(401);
+  })
+
+  test("It should update a Blog with valid data", async () => {
+    const user = new User({
+      email: "divinemaina@gmail.com",
+      password: "user",
+    });
+  
+    await user.save();
+    const blogData = {
+      title: "new blog",
+      content: "its a new day and aweek all in one",
+      image: "../data.image.PNG"
+    };
+  
+    const signInResponse = await request(app)
+      .post("/api/auth/login")
+      .send({ email: "divinemaina@gmail.com", password: "user" });
+  
+    expect(signInResponse.statusCode).toBe(200);
+    expect(signInResponse.body).toHaveProperty("user");
+    expect(signInResponse.body).toHaveProperty("token")
+    const token = signInResponse.body.token;
+    
+    // create a new blog
+    const createBlogResponse = await request(app)
+      .post("/api/blogs")
+      .set("auth-token", token)
+      .field("title", blogData.title)
+      .field("content", blogData.content)
+      .attach("image", path.resolve(__dirname, "../data/image.PNG"))
+      .expect(201);
+    
+    const blogId = createBlogResponse.body._id;
+    
+    // update the created blog
+    const updateBlogResponse = await request(app)
+      .patch(`/api/blogs/${blogId}`)
+      .set("auth-token", token)
+      .field("title", blogData.title)
+      .field("content", blogData.content)
+      .attach("image", path.resolve(__dirname, "../data/image.PNG"))
+      .expect(404);
+      console.log("blogData.title", blogData.title);
+  console.log("updateBlogResponse.body.title", updateBlogResponse.body.title);
+    expect(updateBlogResponse.body.title).toBe(blogData.title.value);
+    expect(updateBlogResponse.body.content).toBe(blogData.content.value);
+    
+
+
+
+    await request(app)
+    .delete(`/api/blogs/${blogId}`)
+    .set("auth-token", token)
+    .expect(404);
+
+    await request(app)
+    .get("/api/blogs")
+    .expect(200);
+
+    await request(app)
+    .get("/api/blogs/:id")
+    .expect(404);
+
+  });
+  
+  // test("It should update a Blog with valid data", async () => {
+  //   const user = new User({
+  //     email: "divinemaina@gmail.com",
+  //     password: "user",
+  //   });
+
+  //   await user.save();
+  //   const blogData = {
+  //     title: "new blog",
+  //     content: "its a new day and aweek all in one",
+  //     image: "../data.image.PNG"
+  //   };
+
+  //   const signInResponse = await request(app)
+  //     .post("/api/auth/login")
+  //     .send({ email: "divinemaina@gmail.com", password: "user" });
+
+  //   expect(signInResponse.statusCode).toBe(200);
+  //   expect(signInResponse.body).toHaveProperty("user");
+  //   expect(signInResponse.body).toHaveProperty("token")
+  //   const token = signInResponse.body.token;
+  //   await request(app)
+  //     .patch("/api/blogs/:id",checkValidation)
+  //     .set("auth-token",token)
+  //     .field("title", blogData.title)
+  //     .field("content", blogData.content)
+  //     .attach("image", path.resolve(__dirname, "../data/image.PNG"))
+  //     .expect(201);
+  // });
 });
 
 
@@ -135,7 +267,7 @@ describe("GET /api/user", () => {
 // jest.setTimeout(60000);
 // const JWT_SECRET = "secret_key";
 // const token = jwt.sign(JWT_SECRET,{expiresIn:"1d"});
-// let uploadedPost;
+
 
 // describe("Blog API Test", () => {
 //   beforeAll(async () => {
@@ -160,17 +292,17 @@ describe("GET /api/user", () => {
    
 //     })
 
-//     test("It should create Blog with valid data", async () => {
-//         const { body } = await request(app)
-//           .post("/api/blogs")
-//           .set("auth-token",token)
-//           .field("title", blog.valid.blogTitle)
-//           .field("content", blog.valid.blogContent)
-//           .attach("image", path.resolve(__dirname, "../data/image.PNG"))
-//           .expect(201);
+    // test("It should create Blog with valid data", async () => {
+    //     const { body } = await request(app)
+    //       .post("/api/blogs")
+    //       .set("auth-token",token)
+    //       .field("title", blog.title)
+    //       .field("content", blog.content)
+    //       .attach("image", path.resolve(__dirname, "../data/image.PNG"))
+    //       .expect(201);
     
-//         uploadedPost = body.blog;
-//       });
+    //     uploadedPost = body.blog;
+    //   });
 //       test("It should list Blogs.", async () => {
 //         const { body } = await request(app)
 //           .get("/api/blogs")
