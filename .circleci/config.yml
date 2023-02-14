@@ -2,7 +2,8 @@ jobs:
   build:
     docker:
       - image: node:16.17.0
-  repo_token: lLqKyNNKIgzBau6H5YKe4sS1SgXnA1BKa
+      environment:
+         repo_token: lLqKyNNKIgzBau6H5YKe4sS1SgXnA1BKa
     steps:
       - checkout:
       - run:
