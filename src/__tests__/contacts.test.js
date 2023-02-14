@@ -3,7 +3,16 @@ import { mongoConnect, mongoDisconnect } from "../services/mongo.js";
 import app from '../app.js';
 
 jest.setTimeout(10000)
-const contact = {
+
+ const user = {
+email: "divinemaina@gmail.com",
+password:"user"
+ }
+ const userWithoutEmail = {
+password:"user"
+ }
+
+ const contact = {
     name : "New Movie",
 email: "divinemaina@gmail.com",
 message:"hhhhhhhxshhhhhhhhhhhhhh"
@@ -13,13 +22,17 @@ message:"hhhhhhhxshhhhhhhhhhhhhh"
 message:"hhhhhhhxshhhhhhhhhhhhhh"
  }
 
- const user = {
+
+ const comment = {
+    name : "New Movie",
 email: "divinemaina@gmail.com",
-password:"user"
+message:"hhhhhhhxshhhhhhhhhhhhhh"
  }
- const userWithoutEmail = {
-password:"user"
+ const commenWithoutName = {
+    email: "divinemaina@gmail.com",
+message:"hhhhhhhxshhhhhhhhhhhhhh"
  }
+
 
  describe("blog API tests", () =>{
     beforeAll( async() =>{
@@ -40,6 +53,13 @@ password:"user"
             .expect(200)
         })
         
+        test("It should return a list of comments", async () =>{
+            const {body} = await request(app)
+            .get("/api/blogs/:id/comments")
+            .expect("Content-Type", /json/)
+            .expect(200)
+        })
+
         test("It should return 201 and create a contact message", async () =>{
           const {body} =   await request(app)
             .post("/api/messages")
