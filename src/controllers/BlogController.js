@@ -4,13 +4,13 @@ import cloudinary from "../services/cloudinary.js"
 
 let blog_creation = async (req, res) => {
   try{
-    // const result= await cloudinary.uploader.upload(req.file.path)
+    const result= await cloudinary.uploader.upload(req.file.path)
 // console.log(result);
     const blogData = new Blog ({
       title: req.body.title,
       content: req.body.content,
-      image:req.body.image
-      // image: result.url
+      // image:req.body.image
+      image: result.url
 
 
     });

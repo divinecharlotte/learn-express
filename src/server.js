@@ -76,51 +76,91 @@ const options = {
   const swaggerSpec = swaggerJSDoc(options);
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-  /**
+//---------- Create a blog ------------------------------//
+/**
  * @swagger
- * /blogs:
+ * '/blogs':
  *  post:
- *    security:
- *      - bearerAuth: []
- *    summary: To add blog
- *    description: Used to add blog
- *    requestBody:
+ *     tags:
+ *     - Create_Blog
+ *     summary: Create a blog
+ *     parameters:
+ *        - in: header
+ *          name: auth-token
+ *          required: true
+ *          description: numeric ID required
+ *     requestBody:
  *      required: true
  *      content:
- *        application/json:
- *          schema:
- *           $ref: "#components/schemas/blogSchema"
- *    responses:
- *      200:
- *          description: Blog added successfully
+ *        multipart/form-data:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - content
+ *              - image
+ *            properties:
+ *              title:
+ *                type: string
+ *                default: hello
+ *              content:
+ *                type: string
+ *                default: greetings greetings
+ *              image:
+ *                type: file
+ *     responses:
+ *      201:
+ *        description: Created
+ *      409:
+ *        description: Conflict
+ *      404:
+ *        description: Not Found
  */
 
 
 
-  /**
+/**
  * @swagger
- * /blogs/{id}:
+ * '/blogs/{id}':
  *  patch:
- *    security:
- *      - bearerAuth: []
- *    summary: Used for editing blog
- *    description: This API is used to edit a blog
- *    parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            description: numeric ID required
- *            schema:
- *              type: string
- *    requestBody:
+ *     tags:
+ *     - Create_Blog
+ *     summary: Create a blog
+ *     parameters:
+ *        - in: header
+ *          name: auth-token
+ *          required: true
+ *          description: numeric ID required
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: numeric ID required
+ *     requestBody:
  *      required: true
  *      content:
- *        application/json:
- *          schema:
- *           $ref: "#components/schemas/blogSchema"
- *    responses:
- *      200:
- *          description: Blog updated successfully
+ *        multipart/form-data:
+ *           schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - content
+ *              - image
+ *            properties:
+ *              title:
+ *                type: string
+ *                default: hello
+ *              content:
+ *                type: string
+ *                default: greetings greetings
+ *              image:
+ *                type: file
+ *     responses:
+ *      201:
+ *        description: Created
+ *      409:
+ *        description: Conflict
+ *      404:
+ *        description: Not Found
  */
 
 /**
