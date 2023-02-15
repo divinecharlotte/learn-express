@@ -11,7 +11,7 @@ import swaggerUi from "swagger-ui-express"
  * @swagger
  *  components:
  *    securitySchemes:
- *      bearerAuth:
+ *      JWTAuth:
  *        type: http
  *        scheme: bearer
  *        bearerFormat: JWT
@@ -47,6 +47,13 @@ import swaggerUi from "swagger-ui-express"
  *          email:
  *            type: string
  *          password:
+ *            type: string
+ *      commentSchema:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          message:
  *            type: string
  *
  */
@@ -246,17 +253,101 @@ const options = {
  *          description: user created successfully
  */
 
-/**
+
+  /**
  * @swagger
  * /users:
  *  get:
- *      summary: This API is used to check if get method on users is working or not
+ *    parameters:
+ *        - in: header
+ *          name: auth-token
+ *          required: true
+ *          description: numeric ID required
+ *    summary: Used for editing blog
+ *    description: This API is used to edit a blog
+ *    responses:
+ *      200:
+ *          description: Blog updated successfully
+ */
+
+
+  /**
+ * @swagger
+ * /blogs/:id/comments:
+ *  post:
+ *    summary: To a comment on a blog
+ *    description: Used to post a comment
+ *    parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: numeric ID required
+ *          schema:
+ *          type: integer
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *           $ref: "#components/schemas/commentSchema"
+ *    responses:
+ *      200:
+ *          description: comment addeed successfully
+ */
+
+  /**
+ * @swagger
+ * /blogs/:id/comments:
+ *  get:
+ *      summary: This API is used to check if get method on comments is working or not
  *      description: This API is used to check if get method is working or not
+ *      parameters:
+ *          - in: path
+ *            name: id
+ *            required: true
+ *            description: numeric ID required
+ *            schema:
+ *            type: integer
  *      responses:
  *          200:
  *              description: To test Get method
  */
 
+  /**
+ * @swagger
+ * /blogs/:id/likes:
+ *  post:
+ *    summary: To a comment on a blog
+ *    description: Used to post a comment
+ *    parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: numeric ID required
+ *          schema:
+ *          type: integer
+ *    responses:
+ *      200:
+ *          description: like addeed successfully
+ */
+
+  /**
+ * @swagger
+ * /blogs/:id/likes:
+ *  get:
+ *    summary: To a comment on a blog
+ *    description: Used to post a comment
+ *    parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: numeric ID required
+ *          schema:
+ *          type: integer
+ *    responses:
+ *      200:
+ *          description: like addeed successfully
+ */
 dotenv.config()
 
 
