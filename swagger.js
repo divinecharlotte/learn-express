@@ -5,7 +5,7 @@ const options = {
       openapi: '3.0.0',
       info: {
         title: "Blog API Documentation",
-        description: 'This is the API for KATROS',
+        description: 'This is the API myBrand ',
         version: '1.0.0',
       },
     },
