@@ -7,7 +7,7 @@ const comment = new Comment({
     		name: req.body.name,
     		message: req.body.message,
             blogId:Id
-            // 
+    
            
     	});
         await comment.save()

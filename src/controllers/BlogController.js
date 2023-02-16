@@ -9,7 +9,10 @@ let blog_creation = async (req, res) => {
     const blogData = new Blog ({
       title: req.body.title,
       content: req.body.content,
+      // image:req.body.image
       image: result.url
+
+
     });
     await blogData.save()
     res.status(201).json({Blog:blogData})
