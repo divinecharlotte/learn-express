@@ -4,7 +4,7 @@ import { mongoConnect } from './services/mongo.js'
 import app from './app.js';
 import swaggerJSDoc from "swagger-jsdoc"
 import swaggerUi from "swagger-ui-express"
-
+import cors from "cors"
 
 
 /**
@@ -74,6 +74,7 @@ const options = {
     apis: ["src/server.js"],
   };
   const swaggerSpec = swaggerJSDoc(options);
+  app.use(cors())
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //---------- Create a blog ------------------------------//
