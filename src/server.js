@@ -2,9 +2,82 @@ import http from 'http'
 import dotenv from 'dotenv'
 import { mongoConnect } from './services/mongo.js'
 import app from './app.js';
+import swaggerJSDoc from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
+import cors from "cors"
 import swaggerDocs from "../swagger.js"
 
+/**
+ * @swagger
+ *  components:
+ *    securitySchemes:
+ *      JWTAuth:
+ *        type: http
+ *        scheme: bearer
+ *        bearerFormat: JWT
+ *    schemas:
+ *      blogSchema:
+ *        type: object
+ *        properties:
+ *          title:
+ *            type: string
+ *          content:
+ *            type: string
+ *          image:
+ *            type: string
+ *      contactSchema:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          email:
+ *            type: string
+ *          message:
+ *            type: string
+ *      loginSchema:
+ *        type: object
+ *        properties:
+ *          email:
+ *            type: string
+ *          password:
+ *            type: string
+ *      signupSchema:
+ *        type: object
+ *        properties:
+ *          email:
+ *            type: string
+ *          password:
+ *            type: string
+ *      commentSchema:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *          message:
+ *            type: string
+ *
+ */
 
+// const options = {
+//     definition: {
+//       openapi: "3.0.0",
+//       info: {
+//         title: "Blog API Documentation",
+//         version: "1.0.0",
+//       },
+//       servers: [
+//         {
+//           url: "http://localhost:5000/api",
+//         },
+//       ],
+//     },
+//     apis: ["src/server.js"],
+//   };
+//   const swaggerSpec = swaggerJSDoc(options);
+//   app.use(cors())
+//   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+//---------- Create a blog ------------------------------//
 /**
  * @swagger
  * '/api/blogs':
