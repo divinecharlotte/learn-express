@@ -67,7 +67,7 @@ const options = {
       },
       servers: [
         {
-          url: "http://localhost:5000/api",
+          url: "https://localhost:5000/api",
         },
       ],
     },
@@ -194,21 +194,27 @@ const options = {
 
 /**
  * @swagger
- * /blogs/{id}:
+ * '/blogs/{id}':
  *  delete:
- *      summary: This API is used to check if get method is working or not
- *      description: This API is used to check if get method is working or not
- *      parameters:
- *          - in: path
- *            name: id
- *            required: true
- *            description: numeric ID required
- *            schema:
- *            type: integer
- *      responses:
+ *     tags:
+ *     - Create_Blog
+ *     summary: Create a blog
+ *     parameters:
+ *        - in: header
+ *          name: auth-token
+ *          required: true
+ *          description: numeric ID required
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          description: numeric ID required
+ *     responses:
  *          200:
  *              description: Data deleted successfully
  */
+
+
+
 
   /**
  * @swagger
