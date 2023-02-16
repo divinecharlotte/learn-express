@@ -5,7 +5,7 @@ import app from './app.js';
 import swaggerJSDoc from "swagger-jsdoc"
 import swaggerUi from "swagger-ui-express"
 import cors from "cors"
-
+import swaggerDocs from "../swagger.js"
 
 /**
  * @swagger
@@ -58,29 +58,29 @@ import cors from "cors"
  *
  */
 
-const options = {
-    definition: {
-      openapi: "3.0.0",
-      info: {
-        title: "Blog API Documentation",
-        version: "1.0.0",
-      },
-      servers: [
-        {
-          url: "https://localhost:5000/api",
-        },
-      ],
-    },
-    apis: ["src/server.js"],
-  };
-  const swaggerSpec = swaggerJSDoc(options);
-  app.use(cors())
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// const options = {
+//     definition: {
+//       openapi: "3.0.0",
+//       info: {
+//         title: "Blog API Documentation",
+//         version: "1.0.0",
+//       },
+//       servers: [
+//         {
+//           url: "http://localhost:5000/api",
+//         },
+//       ],
+//     },
+//     apis: ["src/server.js"],
+//   };
+//   const swaggerSpec = swaggerJSDoc(options);
+//   app.use(cors())
+//   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //---------- Create a blog ------------------------------//
 /**
  * @swagger
- * '/blogs':
+ * '/api/blogs':
  *  post:
  *     tags:
  *     - Create_Blog
@@ -122,7 +122,7 @@ const options = {
 
 /**
  * @swagger
- * '/blogs/{id}':
+ * '/api/blogs/{id}':
  *  patch:
  *     tags:
  *     - Create_Blog
@@ -166,7 +166,7 @@ const options = {
 
 /**
  * @swagger
- * /blogs:
+ * /api/blogs:
  *  get:
  *      summary: This API is used to check if get method is working or not
  *      description: This API is used to check if get method is working or not
@@ -177,7 +177,7 @@ const options = {
 
 /**
  * @swagger
- * /blogs/{id}:
+ * /api/blogs/{id}:
  *  get:
  *      summary: This API is used to check if get method is working or not
  *      description: This API is used to check if get method is working or not
@@ -195,7 +195,7 @@ const options = {
 
 /**
  * @swagger
- * '/blogs/{id}':
+ * '/api/blogs/{id}':
  *  delete:
  *     tags:
  *     - Create_Blog
@@ -219,7 +219,7 @@ const options = {
 
   /**
  * @swagger
- * /messages:
+ * /api/messages:
  *  post:
  *    summary: To add message
  *    description: Used to add message
@@ -237,7 +237,7 @@ const options = {
 
 /**
  * @swagger
- * /messages:
+ * /api/messages:
  *  get:
  *      summary: This API is used to check if get method of message is working or not
  *      description: This API is used to check if get method is working or not
@@ -249,7 +249,7 @@ const options = {
 
 /**
  * @swagger
- * /messages/{id}:
+ * /api/messages/{id}:
  *  delete:
  *      summary: This API is used to check if the delete method is working or not
  *      description: This API is used to check if get method is working or not
@@ -268,7 +268,7 @@ const options = {
 
   /**
  * @swagger
- * /auth/login:
+ * /api/auth/login:
  *  post:
  *    summary: To login
  *    description: Used to login
@@ -285,7 +285,7 @@ const options = {
 
   /**
  * @swagger
- * /register:
+ * /api/register:
  *  post:
  *    summary: To signup
  *    description: Used to signup
@@ -303,7 +303,7 @@ const options = {
 
   /**
  * @swagger
- * /users:
+ * /api/users:
  *  get:
  *    parameters:
  *        - in: header
@@ -320,7 +320,7 @@ const options = {
 
   /**
  * @swagger
- * /blogs/:id/comments:
+ * /api/blogs/{id}/comments:
  *  post:
  *    summary: To a comment on a blog
  *    description: Used to post a comment
@@ -344,7 +344,7 @@ const options = {
 
   /**
  * @swagger
- * /blogs/:id/comments:
+ * /api/blogs/{id}/comments:
  *  get:
  *      summary: This API is used to check if get method on comments is working or not
  *      description: This API is used to check if get method is working or not
@@ -362,7 +362,7 @@ const options = {
 
   /**
  * @swagger
- * /blogs/:id/likes:
+ * /api/blogs/{id}/likes:
  *  post:
  *    summary: To a comment on a blog
  *    description: Used to post a comment
@@ -380,7 +380,7 @@ const options = {
 
   /**
  * @swagger
- * /blogs/:id/likes:
+ * /api/blogs/{id}/likes:
  *  get:
  *    summary: To a comment on a blog
  *    description: Used to post a comment
@@ -406,6 +406,7 @@ const startServer = async () =>{
     await mongoConnect();
 
     server.listen(PORT, () =>{
+      swaggerDocs(app,PORT)
         console.log("start");
     })
 }
