@@ -18,7 +18,7 @@ let countLikes = async (req, res) => {
     try {
         const blogId = req.params.id;
         const likes = await Like.find({ blogId });
-        res.status(200).json({ count: likes.length });
+        res.status(200).json({ likes: likes.length });
     } catch (err) {
         res.status(404).json(err);
     }

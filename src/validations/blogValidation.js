@@ -7,7 +7,7 @@ const BlogSchema = Joi.object({
                 .regex(/^[a-zA-Z]+\s[a-zA-Z]+$/),
               content: Joi.string()
                 .min(20)
-                .max(100),
+                .max(10000),
               image: Joi.string(),
             
 });

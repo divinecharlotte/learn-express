@@ -58,24 +58,6 @@ import swaggerDocs from "../swagger.js"
  *
  */
 
-// const options = {
-//     definition: {
-//       openapi: "3.0.0",
-//       info: {
-//         title: "Blog API Documentation",
-//         version: "1.0.0",
-//       },
-//       servers: [
-//         {
-//           url: "http://localhost:5000/api",
-//         },
-//       ],
-//     },
-//     apis: ["src/server.js"],
-//   };
-//   const swaggerSpec = swaggerJSDoc(options);
-//   app.use(cors())
-//   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //---------- Create a blog ------------------------------//
 /**

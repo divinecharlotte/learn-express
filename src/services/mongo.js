@@ -13,7 +13,6 @@ mongoose.connection.once("open", () =>{
 
 
 mongoose.connection.on("open", () =>{
-    // console.log("error happen! ")
 });
 
 const mongoConnect = async () =>{
