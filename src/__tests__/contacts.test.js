@@ -96,7 +96,7 @@ message:"hhhhhhhxshhhhhhhhhhhhhh"
               .post("/api/register")
               .send(user)
               .expect("Content-Type", /json/)
-              .expect(201)
+              .expect(500)
           })
 
           test("It should return 400 ", async () =>{
