@@ -1,10 +1,10 @@
 import express from "express";
-
 import morgan from "morgan";
-
 import routes from "./routes.js";
 import sessions from "express-session";
 const app = express();
+import cors from "cors";
+app.use(cors())
 
 app.use(morgan("combined"));
 app.use(express.json());
@@ -15,11 +15,8 @@ app.use(sessions({
             saveUninitialized: true
         }))
 app.use("/api", routes)
-
-//our movie will use api/v1/movies/
-
-// app.listen(5000, ()=>{
-//     console.log(" blog server has started");
-//  })
+app.get('/',(req,res)=>{
+    res.render('index.ejs')
+})
 
 export default app;
